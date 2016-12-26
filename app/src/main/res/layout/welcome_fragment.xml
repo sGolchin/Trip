@@ -13,36 +13,38 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to trip cost divider app"
+            android:text="Welcome to the Dong app, this app helps you to split the cost of your trip with your friends easier"
             android:paddingBottom="15dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add your trips name"
+            android:text="1) Add your trip name"
             android:paddingBottom="15dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="For each trip, you can add expences that each person spend"
+            android:text="2) For each trip, you can add expenses that each friend in the trip spended"
             android:paddingBottom="15dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="The calculated cost for each person will be shown"
+            android:text="3) The amont of money that each friend should pay or receive will be calculated and displayed"
             android:paddingBottom="15dp"/>
 
     </LinearLayout>
 
     <Button
         android:id="@+id/start_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="@dimen/margin_small"
+        android:textColor="@color/colorPrimary"
+        style="@android:style/Animation"
         android:text="Start" />
 
 </RelativeLayout>

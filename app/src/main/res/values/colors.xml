@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent2">#FF4050</color>
+
+
+    <!-- Colors For Raised Buttons in Pre Lollipop -->
+    <color name="btn_pressed_state_color">#c0ffcc00</color>
+    <color name="btn_focused_state_color">#c0ffcc00</color>
+    <color name="btn_normal_state_color">#ffffcc00</color>
+    <color name="btn_disabled_state_color">#EDEDED</color>
+    <color name="btn_disabled_text_color">@color/colorAccent</color>
+
 </resources>
