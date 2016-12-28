@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">CostDivider</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="trip_name">Please enter a name for your trip</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>
