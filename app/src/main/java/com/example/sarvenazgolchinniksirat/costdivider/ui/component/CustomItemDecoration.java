@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -26,18 +25,12 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
     private final Drawable mDivider;
 
     private int mOrientation;
-    private boolean hasFooter;
 
     public CustomItemDecoration(Context context, int orientation) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
         setOrientation(orientation);
-    }
-
-    public CustomItemDecoration(@NonNull final Context context, int orientation, boolean hasFooter) {
-        this(context, orientation);
-        this.hasFooter = hasFooter;
     }
 
     public void setOrientation(int orientation) {
@@ -61,10 +54,6 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
         final int right = parent.getWidth() - parent.getPaddingRight();
 
         int childCount = parent.getChildCount();
-        //if the list has a footer, then we remove the separator line after the last element.
-        if (hasFooter) {
-            childCount = childCount - 1;
-        }
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child

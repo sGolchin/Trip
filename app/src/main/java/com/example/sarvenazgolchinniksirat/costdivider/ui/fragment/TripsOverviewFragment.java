@@ -2,12 +2,6 @@ package com.example.sarvenazgolchinniksirat.costdivider.ui.fragment;
 
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +17,7 @@ import android.widget.EditText;
 import com.example.sarvenazgolchinniksirat.costdivider.R;
 import com.example.sarvenazgolchinniksirat.costdivider.data.model.TripOverviewData;
 import com.example.sarvenazgolchinniksirat.costdivider.ui.adapter.TripOverviewAdapter;
+import com.example.sarvenazgolchinniksirat.costdivider.ui.component.CustomItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +31,7 @@ public class TripsOverviewFragment extends Fragment {
 
     private AlertDialog.Builder alertDialog;
     private EditText et_country;
-    private int edit_position;
     private View view;
-    private boolean add = false;
-    private Paint p = new Paint();
 
     @Bind(R.id.trip_list)
     protected RecyclerView tripsRecyclerView;
@@ -48,8 +39,6 @@ public class TripsOverviewFragment extends Fragment {
     private TripOverviewAdapter mAdapter;
 
     List<TripOverviewData> tripsNameList = new ArrayList<>();
-
-    private String m_Text;
 
     @NonNull
     public static TripsOverviewFragment newInstance() {
@@ -69,15 +58,15 @@ public class TripsOverviewFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.overview_fragment, container, false);
         ButterKnife.bind(this, rootView);
 
-        //initRecyclerView();
+        initRecyclerView();
         initAdapter();
         initDialog();
-        initSwipe();
+       // initSwipe();
 
         return rootView;
     }
 
-    private void initSwipe() {
+   /*private void initSwipe() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
@@ -131,7 +120,7 @@ public class TripsOverviewFragment extends Fragment {
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(tripsRecyclerView);
-    }
+    }*/
 
     private void removeView() {
         if (view.getParent() != null) {
@@ -140,100 +129,36 @@ public class TripsOverviewFragment extends Fragment {
     }
 
     private void initDialog() {
-        alertDialog = new AlertDialog.Builder(getContext());
-        view = getLayoutInflater(null).inflate(R.layout.dialog_layout, null);
+        alertDialog = new AlertDialog.Builder(getActivity());
+        view = getActivity().getLayoutInflater().inflate(R.layout.dialog_layout, null);
         alertDialog.setView(view);
         final TripOverviewData tripOverviewData = new TripOverviewData();
         alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (add) {
-                    add = false;
                     tripOverviewData.setTripName(et_country.getText().toString());
                     mAdapter.addItem(tripOverviewData);
                     dialog.dismiss();
-                } else {
-                    tripOverviewData.setTripName(et_country.getText().toString());
-                    tripsNameList.set(edit_position, tripOverviewData);
-                    mAdapter.notifyDataSetChanged();
-                    dialog.dismiss();
-                }
-
             }
         });
         et_country = (EditText) view.findViewById(R.id.et_country);
     }
-    /*@Override
-    public void onClick(View v) {
-
-        switch (v.getId()){
-            case R.id.fab_add:
-                removeView();
-                add = true;
-                alertDialog.setTitle("Add Country");
-                et_country.setText("");
-                alertDialog.show();
-                break;
-        }
-    }*/
-
 
     @OnClick(R.id.fab_add)
     protected void addTrip() {
-
         removeView();
-        add = true;
-        alertDialog.setTitle("Add Country");
+        alertDialog.setTitle(R.string.trip_name_dialog_title);
         et_country.setText("");
         alertDialog.show();
-
-      /*   m_Text = getTripNameFromUser();
-
-        TripOverviewData tripOverviewData = new TripOverviewData();
-        tripOverviewData.setTripName(m_Text);
-        mAdapter.notifyItemInserted(mAdapter.getItemCount());
-        mAdapter.notifyDataSetChanged();
-
-
-        //mAdapter.insert(mAdapter.getItemCount(), tripOverviewData);*/
     }
-
-/*    private String getTripNameFromUser() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(getString(R.string.trip_name));
-
-        // Set up the input
-        final EditText input = new EditText(getContext());
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-
-        return m_Text;
-    }*/
 
     /**
      * Initializes the recyclerview.
      */
-   /* private void initRecyclerView() {
-        tripsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), this));
-        tripsRecyclerView.addItemDecoration(new CustomItemDecoration(getActivity(), CustomItemDecoration.VERTICAL_LIST, true));
-    }*/
+    private void initRecyclerView() {
+       // tripsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), this));
+        tripsRecyclerView.addItemDecoration(new CustomItemDecoration(getActivity(), CustomItemDecoration.VERTICAL_LIST));
+    }
     private void initAdapter() {
         tripsRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -249,17 +174,5 @@ public class TripsOverviewFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-   /* @Override
-    public void onItemClick(View view, int position) {
-        handleAdapterOnClickEvent(position);
-
-    }
-
-    private void handleAdapterOnClickEvent(@NonNull final int position) {
-        // FotoNavigation.showStepOverview(getFragmentManager(), caseIdValidationResponseBean.getCaseId(), mAdapter.getIdentificationGroup(position));
-        // FragmentNavigationUtil.showFragment(TripDetailFragment.newInstance(), getActivity().getSupportFragmentManager(), R.id.content_pane);
-
-    }
-}*/
 
 }
