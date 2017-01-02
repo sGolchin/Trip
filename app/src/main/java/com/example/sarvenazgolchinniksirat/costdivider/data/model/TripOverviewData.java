@@ -2,7 +2,7 @@ package com.example.sarvenazgolchinniksirat.costdivider.data.model;
 
 public class TripOverviewData {
 
-    String tripName;
+    private String tripName;
 
     public String getTripName() {
         return tripName;

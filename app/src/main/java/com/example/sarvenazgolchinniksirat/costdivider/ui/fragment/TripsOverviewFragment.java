@@ -20,9 +20,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.sarvenazgolchinniksirat.costdivider.R;
 import com.example.sarvenazgolchinniksirat.costdivider.data.model.TripOverviewData;
+import com.example.sarvenazgolchinniksirat.costdivider.ui.adapter.RecyclerItemClickListener;
 import com.example.sarvenazgolchinniksirat.costdivider.ui.adapter.TripOverviewAdapter;
 import com.example.sarvenazgolchinniksirat.costdivider.ui.component.CustomItemDecoration;
 
@@ -33,7 +35,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TripsOverviewFragment extends Fragment {
+public class TripsOverviewFragment extends Fragment implements RecyclerItemClickListener.OnItemClickListener{
 
 
     private AlertDialog.Builder alertDialog;
@@ -182,13 +184,20 @@ public class TripsOverviewFragment extends Fragment {
         alertDialog.show();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     /**
      * Initializes the recyclerview.
      */
     private void initRecyclerView() {
-       // tripsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), this));
+        tripsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), this));
         tripsRecyclerView.addItemDecoration(new CustomItemDecoration(getActivity(), CustomItemDecoration.VERTICAL_LIST));
     }
+
     private void initAdapter() {
         tripsRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -196,14 +205,10 @@ public class TripsOverviewFragment extends Fragment {
 
         mAdapter = new TripOverviewAdapter(tripsNameList);
         tripsRecyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
+    public void onItemClick(View view, int position) {
+        Toast.makeText(getContext(), "The clicked position " + position, Toast.LENGTH_SHORT).show();
     }
-
-
 }
