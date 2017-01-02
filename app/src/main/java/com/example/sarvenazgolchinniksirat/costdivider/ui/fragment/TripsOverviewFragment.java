@@ -91,10 +91,12 @@ public class TripsOverviewFragment extends Fragment {
 
                 if (direction == ItemTouchHelper.LEFT) {
                     mAdapter.removeItem(position);
+                    //TODO
+                    //show dialog, if yes, delete the item
                 } else {
                     removeView();
                     edit_position = position;
-                    alertDialog.setTitle("Edit Country");
+                    alertDialog.setTitle(R.string.edit_name);
                     et_country.setText(tripsNameList.get(position).getTripName());
                     alertDialog.show();
                 }
@@ -141,23 +143,31 @@ public class TripsOverviewFragment extends Fragment {
 
     private void initDialog() {
         alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setCancelable(false);
         view = getActivity().getLayoutInflater().inflate(R.layout.dialog_layout, null);
         alertDialog.setView(view);
-        final TripOverviewData tripOverviewData = new TripOverviewData();
-        alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(add){
                     add =false;
+                    TripOverviewData tripOverviewData = new TripOverviewData();
                     tripOverviewData.setTripName(et_country.getText().toString());
                     mAdapter.addItem(tripOverviewData);
                     dialog.dismiss();
                 } else {
+                    TripOverviewData tripOverviewData = new TripOverviewData();
                     tripOverviewData.setTripName(et_country.getText().toString());
-                    mAdapter.addItem(tripOverviewData);
+                    tripsNameList.set(edit_position, tripOverviewData);
                     mAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 }
+            }
+        });
+        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                mAdapter.notifyDataSetChanged();
             }
         });
         et_country = (EditText) view.findViewById(R.id.et_country);
@@ -186,6 +196,7 @@ public class TripsOverviewFragment extends Fragment {
 
         mAdapter = new TripOverviewAdapter(tripsNameList);
         tripsRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
